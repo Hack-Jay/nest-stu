@@ -6,30 +6,39 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('users')
 @ApiTags('用户管理')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post()
   @ApiOperation({
-    summary: '新增用户'
+    summary: '新增用户',
   })
   @ApiResponse({
-    type: CreateUserDto
+    type: CreateUserDto,
   })
   create(@Body() createUserDto: CreateUserDto) {
+    // throw new HttpException('自定义错误111', HttpStatus.CONFLICT)
     return this.usersService.create(createUserDto);
   }
 
   @Get()
   findAll() {
+    const env = this.configService.get('database')
+    console.log('env', env)
     return this.usersService.findAll();
   }
 

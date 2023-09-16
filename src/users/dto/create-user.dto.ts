@@ -6,8 +6,8 @@ export class CreateUserDto {
   @ApiProperty({example: '13342312981'})
   userName: string
 
-  @IsInt()
-  @ApiProperty({example: 'd1dad1'})
+  @IsString()
+  @ApiProperty({example: 123131}) // 不生效int？
   password: string
 
   @ApiProperty({example: '14719841@qq.com'})
