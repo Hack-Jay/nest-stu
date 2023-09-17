@@ -6,14 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { PaginationParamsDto } from 'src/share/dots/pagination-params.dto'
 
 @Controller('users')
 @ApiTags('用户管理')
@@ -36,7 +36,9 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
+  findAll(
+    @Query() query: PaginationParamsDto
+  ) {
     const env = this.configService.get('database')
     console.log('env', env)
     return this.usersService.findAll();

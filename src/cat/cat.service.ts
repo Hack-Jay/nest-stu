@@ -3,6 +3,7 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Model } from 'mongoose';
 import { Cat } from './interfaces/cat.interface';
+import { PaginationParamsDto } from 'src/share/dots/pagination-params.dto';
 
 @Injectable()
 export class CatService {
@@ -12,8 +13,19 @@ export class CatService {
     return createdCat;
   }
 
-  findAll() {
-    return this.catModel.find().exec();
+  async findAll({ pageSize, page }: PaginationParamsDto) {
+    // return this.catModel.find().exec();
+    const result = await this.catModel
+      .find({})
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .exec();
+    console.log('result', result);
+    return result;
+    // 100 => 第二页 5 6-10
+    // return {
+    //   data, count
+    // }
   }
 
   findOne(id: number) {

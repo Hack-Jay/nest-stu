@@ -1,15 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsInt } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, Matches, Length, IsEmail } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
-  @ApiProperty({example: '13342312981'})
-  userName: string
+  @ApiProperty({ example: '18321312321' })
+  @Matches(/^1\d{10}$/g, { message: '请输入手机号' })
+  phoneNumber: string;
 
-  @IsString()
-  @ApiProperty({example: 123131}) // 不生效int？
-  password: string
+  @ApiProperty({ example: '111111' })
+  @IsNotEmpty()
+  @Length(6, 10)
+  password: string;
 
-  @ApiProperty({example: '14719841@qq.com'})
-  email: string
+  @ApiProperty({ example: 'aa@qq.com' })
+  @IsEmail()
+  email: string;
 }
