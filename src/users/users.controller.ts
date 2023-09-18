@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,7 +33,7 @@ export class UsersController {
     type: CreateUserDto,
   })
   create(@Body() createUserDto: CreateUserDto) {
-    // throw new HttpException('自定义错误111', HttpStatus.CONFLICT)
+    throw new HttpException('自定义错误111', HttpStatus.CONFLICT)
     return this.usersService.create(createUserDto);
   }
 
